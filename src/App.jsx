@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import HomePage from "./presentation/pages/HomePage"
-import UsuarioFormPage from "./presentation/pages/UsuarioFormPage"
 import CadastraUsuarioPage from "./presentation/pages/CadastraUsuarioPage"
 import EditarUsuarioPage from "./presentation/pages/EditarUsuarioPage"
 

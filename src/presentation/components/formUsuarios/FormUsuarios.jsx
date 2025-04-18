@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function FormUsuarios({ onChange, onValidityChange, initialData = {} }) {
+export default function FormUsuarios({ onChange, validaCidade, usuario = {} }) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -12,20 +12,20 @@ export default function FormUsuarios({ onChange, onValidityChange, initialData =
 
   // Preenche campos iniciais vindos do servidor
   useEffect(() => {
-    if (initialData) {
-      setNome(initialData.nome || '');
-      setEmail(initialData.email || '');
-      setTelefone(initialData.telefone || '');
-      setEstadoSelecionado(initialData.estado || '');
-      setCidadeDigitada(initialData.cidade || '');
+    if (usuario) {
+      setNome(usuario.nome || '');
+      setEmail(usuario.email || '');
+      setTelefone(usuario.telefone || '');
+      setEstadoSelecionado(usuario.estado || '');
+      setCidadeDigitada(usuario.cidade || '');
 
       if (onChange) {
         onChange({
-          nome: initialData.nome || '',
-          email: initialData.email || '',
-          telefone: initialData.telefone || '',
-          estado: initialData.estado || '',
-          cidade: initialData.cidade || '',
+          nome: usuario.nome || '',
+          email: usuario.email || '',
+          telefone: usuario.telefone || '',
+          estado: usuario.estado || '',
+          cidade: usuario.cidade || '',
         });
       }
     }
@@ -80,10 +80,10 @@ export default function FormUsuarios({ onChange, onValidityChange, initialData =
   // Validação: cidade existe na lista de cidades do estado?
   useEffect(() => {
     const cidadeEhValida = cidades.some(cidade => cidade.nome === cidadeDigitada);
-    if (onValidityChange) {
-      onValidityChange(cidadeEhValida);
+    if (validaCidade) {
+      validaCidade(cidadeEhValida);
     }
-  }, [cidadeDigitada, cidades, onValidityChange]);
+  }, [cidadeDigitada, cidades, validaCidade]);
 
   const cidadesFiltradas = cidades.filter(cidade =>
     cidade.nome.toLowerCase().includes(cidadeDigitada.toLowerCase())

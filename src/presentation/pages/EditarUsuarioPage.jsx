@@ -1,46 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from "../../infra/http/api";
 import FormUsuarios from '../components/formUsuarios/FormUsuarios';
+import { atualizarUsuario, buscarUsuarioPorId } from '../../application/usecases/Usuario';
+
 
 export default function EditarUsuarioPage() {
   const { idUsuario } = useParams();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    telefone: '',
-    estado: '',
-    cidade: ''
+  const [usuario, setUsuario] = useState({
+    nome: '', email: '', telefone: '', estado: '', cidade: ''
   });
-
-  const [isValid, setIsValid] = useState(false);  // controla se os dados são válidos
+  const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUsuario = async () => {
+    const carregarUsuario = async () => {
       try {
-        const response = await api(`usuario/${idUsuario}`, 'GET');
-        if (response.ok) {
-          const data = await response.json();
-          setFormData({
-            nome: data.nome,
-            email: data.email,
-            telefone: data.telefone,
-            estado: data.estado,
-            cidade: data.cidade
-          });
-        } else {
-          console.error('Usuário não encontrado!');
-        }
+        const data = await buscarUsuarioPorId(idUsuario);
+        setUsuario({
+          nome: data.nome,
+          email: data.email,
+          telefone: data.telefone,
+          estado: data.estado,
+          cidade: data.cidade
+        });
       } catch (error) {
-        console.error('Erro ao buscar usuário:', error);
+        console.error(error.message);
+        alert('Erro ao carregar usuário!');
       } finally {
         setLoading(false);
       }
     };
-    fetchUsuario();
+    carregarUsuario();
   }, [idUsuario]);
 
   const handleSubmit = async (e) => {
@@ -52,17 +44,10 @@ export default function EditarUsuarioPage() {
     }
 
     try {
-      const response = await api(`usuario/${idUsuario}`, 'PUT', formData);
-      if (response.ok) {
-        navigate('/');
-      } else {
-        const error = await response.json();
-        console.error('Erro ao atualizar:', error);
-        alert('Erro ao atualizar usuário');
-      }
+      await atualizarUsuario(idUsuario, usuario);
+      navigate('/');
     } catch (error) {
-      console.error('Erro de rede:', error);
-      alert('Erro de conexão ao atualizar usuário');
+      alert(error.message || 'Erro ao atualizar usuário');
     }
   };
 
@@ -73,9 +58,9 @@ export default function EditarUsuarioPage() {
       <h1>Editar Usuário</h1>
       <form onSubmit={handleSubmit}>
         <FormUsuarios
-          onChange={setFormData}
-          onValidityChange={setIsValid}
-          initialData={formData}
+          onChange={setUsuario}
+          validaCidade={setIsValid}
+          usuario={usuario}
         />
         <button type="submit" disabled={!isValid}>Salvar alterações</button>
       </form>
