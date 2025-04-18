@@ -1,0 +1,21 @@
+.lista-usuarios {
+    width: 50%;
+}
+
+.lista-usuarios__cabecalho {
+    background-color: #E6EEF8;
+    font-family: "Roboto", sans-serif;
+}
+
+.lista_usuarios__cabecalho__texto:first-child {
+    text-align: left;
+}
+
+
+.lista-usuarios__corpo__texto {
+    text-align: center;
+}
+
+.lista-usuarios__corpo__texto:first-child {
+    text-align: left;
+}
