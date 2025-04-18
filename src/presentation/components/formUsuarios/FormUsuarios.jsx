@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react';
 
-export default function FormUsuarios() {
+export default function FormUsuarios({ onChange, onValidityChange, initialData = {} }) {
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [estados, setEstados] = useState([]);
   const [cidades, setCidades] = useState([]);
   const [estadoSelecionado, setEstadoSelecionado] = useState('');
   const [cidadeDigitada, setCidadeDigitada] = useState('');
   const [inputFocado, setInputFocado] = useState(false);
 
+  // Preenche campos iniciais vindos do servidor
+  useEffect(() => {
+    if (initialData) {
+      setNome(initialData.nome || '');
+      setEmail(initialData.email || '');
+      setTelefone(initialData.telefone || '');
+      setEstadoSelecionado(initialData.estado || '');
+      setCidadeDigitada(initialData.cidade || '');
+
+      if (onChange) {
+        onChange({
+          nome: initialData.nome || '',
+          email: initialData.email || '',
+          telefone: initialData.telefone || '',
+          estado: initialData.estado || '',
+          cidade: initialData.cidade || '',
+        });
+      }
+    }
+  }, [onChange]);
+
+  // Busca estados no IBGE
   useEffect(() => {
     const fetchEstados = async () => {
       try {
@@ -21,6 +46,7 @@ export default function FormUsuarios() {
     fetchEstados();
   }, []);
 
+  // Busca cidades sempre que o estado mudar
   useEffect(() => {
     if (estadoSelecionado) {
       const fetchCidades = async () => {
@@ -38,21 +64,59 @@ export default function FormUsuarios() {
     }
   }, [estadoSelecionado]);
 
+  // Sempre que campos mudam, envia pro componente pai
+  useEffect(() => {
+    if (onChange) {
+      onChange({
+        nome,
+        email,
+        telefone,
+        estado: estadoSelecionado,
+        cidade: cidadeDigitada,
+      });
+    }
+  }, [nome, email, telefone, estadoSelecionado, cidadeDigitada, onChange]);
+
+  // Validação: cidade existe na lista de cidades do estado?
+  useEffect(() => {
+    const cidadeEhValida = cidades.some(cidade => cidade.nome === cidadeDigitada);
+    if (onValidityChange) {
+      onValidityChange(cidadeEhValida);
+    }
+  }, [cidadeDigitada, cidades, onValidityChange]);
+
   const cidadesFiltradas = cidades.filter(cidade =>
     cidade.nome.toLowerCase().includes(cidadeDigitada.toLowerCase())
   );
 
   return (
-    <form>
-      <input placeholder="Nome completo" />
-      <input placeholder="E-mail" />
-      <input placeholder="Senha" type="password" />
+    <>
+      <input
+        required
+        placeholder="Nome completo"
+        value={nome}
+        onChange={e => setNome(e.target.value)}
+      />
+      <input
+        required
+        placeholder="E-mail"
+        type='email'
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+      />
+      <input
+        required
+        placeholder="Telefone"
+        value={telefone}
+        onChange={e => setTelefone(e.target.value)}
+      />
 
-      <select 
-        value={estadoSelecionado} 
+      <select
+        required
+        value={estadoSelecionado}
         onChange={e => {
           setEstadoSelecionado(e.target.value);
-          setCidadeDigitada('');
+          setCidadeDigitada('');  // Limpa cidade ao trocar estado
         }}
       >
         <option value="">Selecione o estado</option>
@@ -65,6 +129,7 @@ export default function FormUsuarios() {
 
       <div>
         <input
+          required
           placeholder="Digite a cidade"
           value={cidadeDigitada}
           onChange={e => setCidadeDigitada(e.target.value)}
@@ -82,7 +147,7 @@ export default function FormUsuarios() {
             listStyle: 'none'
           }}>
             {cidadesFiltradas.map(cidade => (
-              <li 
+              <li
                 key={cidade.id}
                 style={{ cursor: 'pointer', padding: '2px 0' }}
                 onMouseDown={() => setCidadeDigitada(cidade.nome)}
@@ -93,6 +158,10 @@ export default function FormUsuarios() {
           </ul>
         )}
       </div>
-    </form>
+
+      {cidadeDigitada && !cidades.some(cidade => cidade.nome === cidadeDigitada) && (
+        <p style={{ color: 'red' }}>Por favor, selecione uma cidade válida da lista.</p>
+      )}
+    </>
   );
 }
