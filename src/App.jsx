@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import HomePage from "./presentation/pages/HomePage"
 import CadastraUsuarioPage from "./presentation/pages/CadastraUsuarioPage/CadastraUsuarioPage"
-import EditarUsuarioPage from "./presentation/pages/EditarUsuarioPage"
+import EditarUsuarioPage from "./presentation/pages/EditarUsuariopage/EditarUsuarioPage"
 import NotFoundPage from "./presentation/pages/NotFoundPage"
 
 function App() {

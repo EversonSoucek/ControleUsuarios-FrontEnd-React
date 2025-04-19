@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import FormUsuarios from '../../components/formUsuarios/FormUsuarios';
 import { useNavigate } from 'react-router-dom';
-import useTelefoneValido from '../../hooks/useTelefoneValido';
 import { usuarioService } from '../../../infra/apis/UsuarioApi';
 import "./CadastraUsuarioPage.css";
-import Logo from '../../components/Logo/Logo';
-import BotaoGravar from '../../components/Botoes/BotaoGravar/BotaoGravar';
-import BotaoCancelar from '../../components/Botoes/BotaoCancelar/BotaoCancelar';
+import Form from '../../components/Form/Form.';
 
 export default function CadastraUsuarioPage() {
 	const [usuario, setUsuario] = useState({
@@ -39,14 +35,7 @@ export default function CadastraUsuarioPage() {
 
 	return (
 		<div className='cadastro-usuarios'>
-			<form className='cadastro-usuarios__form' onSubmit={handleSubmit}>
-				<Logo>Cadastro</Logo>
-				<FormUsuarios usuario={usuario} setUsuario={setUsuario} />
-				<div className='cadastro-usuarios__form__botoes'>
-					<BotaoGravar>Gravar</BotaoGravar>
-					<BotaoCancelar>Cancelar</BotaoCancelar>
-				</div>
-			</form>
+			<Form handleSubmit={handleSubmit} setUsuario={setUsuario} titulo={"Cadastro"} usuario={usuario} />
 		</div>
 	);
 }

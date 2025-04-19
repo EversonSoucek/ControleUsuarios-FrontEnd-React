@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import FormUsuarios from '../components/formUsuarios/FormUsuarios';
-import { atualizarUsuario, buscarUsuarioPorId } from '../../application/services/UsuarioService';
-import useTelefoneValido from '../hooks/useTelefoneValido';
-
+import { atualizarUsuario, buscarUsuarioPorId } from '../../../application/services/UsuarioService';
+import Form from '../../components/Form/Form.';
+import "./EditarUsuarioPage.css"
 export default function EditarUsuarioPage() {
 	const { idUsuario } = useParams();
 	const navigate = useNavigate();
@@ -61,18 +60,8 @@ export default function EditarUsuarioPage() {
 	if (loading) return <p>Carregando...</p>;
 
 	return (
-		<div>
-			<h1>Editar Usuário</h1>
-			<form onSubmit={handleSubmit}>
-				<FormUsuarios
-					onChange={setUsuario}
-					usuario={usuario}
-					setUsuario={setUsuario}
-				/>
-				<button type="submit">
-					Salvar alterações
-				</button>
-			</form>
+		<div className='editar-usuarios'>
+			<Form handleSubmit={handleSubmit} setUsuario={setUsuario} usuario={usuario} titulo={"Editar"}/>
 		</div>
 	);
 }

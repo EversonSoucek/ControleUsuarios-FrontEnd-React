@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    background-color: #E6EEF8;
+    width: 42%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 64.76%;
+    box-shadow: white 0px 5px 15px;
+}
+
+.form__botoes {
+    display: flex;
+    flex-direction: row;
+}
