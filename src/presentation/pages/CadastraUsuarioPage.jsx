@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import FormUsuarios from '../components/formUsuarios/FormUsuarios';
-import api from "../../infra/http/api";
 import { useNavigate } from 'react-router-dom';
 import useTelefoneValido from '../hooks/useTelefoneValido';
+import { usuarioService } from '../../infra/apis/UsuarioApi';
 
 export default function CadastraUsuarioPage() {
 	const [usuario, setUsuario] = useState({
@@ -15,24 +15,15 @@ export default function CadastraUsuarioPage() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+	  
 		try {
-			console.log(usuario);
-
-			const response = await api('usuario', 'POST', usuario);
-
-			if (!response.ok) {
-				const errorText = await response.text();
-				console.error('Falha na requisição:', errorText);
-				return;
-			}
-
-			const data = await response.json();
+		  await usuarioService.cadastrar(usuario);
+		  navigate("/");
 		} catch (error) {
-			console.error('Erro ao tentar cadastrar o usuário:', error);
+		  console.error('Erro ao tentar cadastrar o usuário:', error);
+		  alert(error.message || 'Erro ao cadastrar usuário.');
 		}
-		navigate("/");
-	};
+	  };
 
 	return (
 		<>

@@ -50,5 +50,20 @@ export const usuarioService = {
       console.error('Erro ao inativar usuário:', error);
       throw error;
     }
+  },
+
+  async cadastrar(dados) {
+    try {
+      const response = await api('usuario', 'POST', dados);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Erro ao cadastrar usuário');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error);
+      throw error;
+    }
   }
+  
 };
