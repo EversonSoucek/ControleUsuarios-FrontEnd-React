@@ -1,7 +1,14 @@
-import React from 'react'
+export default function BarraPesquisa({ setFiltro }) {
+    const handleChange = (e) => {
+        setFiltro(e.target.value);
+    };
 
-export default function BarraPesquisa() {
     return (
-        <input type='search' placeholder='Pesquise usuários' className='barra-pesquisa' />
-    )
+        <input
+            type='search'
+            placeholder='Pesquise usuários pelo nome'
+            className='barra-pesquisa'
+            onChange={handleChange}
+        />
+    );
 }

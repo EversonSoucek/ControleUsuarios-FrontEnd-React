@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import FormUsuarios from '../components/formUsuarios/FormUsuarios';
 import api from "../../infra/http/api";
 import { useNavigate } from 'react-router-dom';
+import useTelefoneValido from '../hooks/useTelefoneValido';
 
 export default function CadastraUsuarioPage() {
 	const [usuario, setUsuario] = useState({
 		nome: "", email: '', telefone: '', estado: '', cidade: ''
 	});
-	const navigate = useNavigate()
+
+	const telefoneValido = useTelefoneValido(usuario.telefone,false);
+
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -24,19 +28,18 @@ export default function CadastraUsuarioPage() {
 			}
 
 			const data = await response.json();
-			console.log('Usuário cadastrado com sucesso:', data);
 		} catch (error) {
 			console.error('Erro ao tentar cadastrar o usuário:', error);
 		}
-		navigate("/")
+		navigate("/");
 	};
 
 	return (
 		<>
 			<h1 className='cadastro-usuarios__titulo'>Cadastro de usuários</h1>
 			<form className='cadastro-usuarios__form' onSubmit={handleSubmit}>
-				<FormUsuarios usuario={usuario} setUsuario={setUsuario} onChange={setUsuario} />
-				<button type='submit'>Gravar</button>
+				<FormUsuarios usuario={usuario} setUsuario={setUsuario} />
+				<button type='submit' disabled={!telefoneValido}>Gravar</button>
 			</form>
 		</>
 	);
