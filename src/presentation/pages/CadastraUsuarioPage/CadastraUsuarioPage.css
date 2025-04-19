@@ -1,0 +1,27 @@
+.cadastro-usuarios {
+    min-height: 100vh;
+    background-image: url("../../../assets/cidadeFundo.png");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.cadastro-usuarios__form {
+    display: flex;
+    background-color: #E6EEF8;
+    width: 42%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 64.76%;
+    box-shadow: white 0px 5px 15px;
+}
+
+.cadastro-usuarios__form__botoes {
+    display: flex;
+    flex-direction: row;
+}

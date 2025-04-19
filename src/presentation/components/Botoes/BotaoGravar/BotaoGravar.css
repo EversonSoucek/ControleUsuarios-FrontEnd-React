@@ -1,0 +1,14 @@
+.botao-gravar {
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-family: "Roboto",sans-serif;
+    font-size: var(--13px);
+    cursor: pointer;
+}
+
+.desativado {
+    cursor: default;
+    background-color: grey;
+    color: white;
+}

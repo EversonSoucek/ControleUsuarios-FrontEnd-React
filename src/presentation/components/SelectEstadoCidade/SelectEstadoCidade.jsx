@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { estadoCidadeService } from '../../../application/services/IbgeServices';
+import "./SelectEstadoCidade.css"
 
 export default function SelectEstadoCidade({ usuario, setUsuario }) {
     const [estados, setEstados] = useState([]);
     const [cidades, setCidades] = useState([]);
     const [estadoSelecionado, setEstadoSelecionado] = useState(usuario.estado || '');
 
-    // Buscar estados ao carregar
     useEffect(() => {
         estadoCidadeService.obterEstados()
             .then(setEstados)
             .catch(error => console.error('Erro ao buscar estados:', error));
     }, []);
 
-    // Buscar cidades se o usuário já tiver estado ao montar (ex: edição)
     useEffect(() => {
         if (estadoSelecionado) {
             estadoCidadeService.obterCidadesPorEstado(estadoSelecionado)
@@ -27,6 +26,7 @@ export default function SelectEstadoCidade({ usuario, setUsuario }) {
     return (
         <>
             <select
+                className='select-estado-cidade'
                 required
                 value={estadoSelecionado}
                 onChange={e => {
@@ -35,7 +35,7 @@ export default function SelectEstadoCidade({ usuario, setUsuario }) {
                     setUsuario(prev => ({
                         ...prev,
                         estado: uf,
-                        cidade: '' // Limpa cidade quando troca o estado
+                        cidade: ''
                     }));
                 }}
             >
@@ -48,6 +48,7 @@ export default function SelectEstadoCidade({ usuario, setUsuario }) {
             </select>
 
             <select
+                className='select-estado-cidade'
                 required
                 value={usuario.cidade || ''}
                 onChange={e => {

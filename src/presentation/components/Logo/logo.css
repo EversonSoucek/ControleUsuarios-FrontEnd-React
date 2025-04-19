@@ -1,0 +1,13 @@
+.logo {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
+.logo__titulo {
+    font-family: "Roboto",sans-serif;
+    font-size: var(--32px);
+    color: #90A4AE;
+    font-weight: bold;
+}

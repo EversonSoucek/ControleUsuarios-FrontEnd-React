@@ -1,0 +1,11 @@
+.botao-cancelar {
+    width: 100%;
+    background-color: red;
+    border: 1px solid red;
+    color: white;
+    font-family: "Roboto",sans-serif;
+    font-size: var(--13px);
+    margin-left: 20px;
+    cursor: pointer;
+}
+

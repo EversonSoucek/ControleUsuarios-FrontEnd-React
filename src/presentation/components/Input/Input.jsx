@@ -1,4 +1,5 @@
 import { formatarTelefone } from "../../../application/utils/formatarTelefone";
+import "./input.css"
 
 export default function Input({ children, nome, onChange, valor }) {
     const handleChange = (e) => {
@@ -11,7 +12,8 @@ export default function Input({ children, nome, onChange, valor }) {
         onChange({ target: { name: nome, value } });
     };
     return (
-        <input
+        <input 
+            className="input"
             placeholder={children}
             type="text"
             name={nome}
