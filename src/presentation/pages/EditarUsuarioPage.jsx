@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import FormUsuarios from '../components/formUsuarios/FormUsuarios';
-import { atualizarUsuario, buscarUsuarioPorId } from '../../application/usecases/Usuario';
+import { atualizarUsuario, buscarUsuarioPorId } from '../../application/services/UsuarioService';
 
 
 export default function EditarUsuarioPage() {
@@ -11,7 +11,6 @@ export default function EditarUsuarioPage() {
   const [usuario, setUsuario] = useState({
     nome: '', email: '', telefone: '', estado: '', cidade: ''
   });
-  const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,12 +36,6 @@ export default function EditarUsuarioPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!isValid) {
-      alert('Por favor, escolha uma cidade válida antes de salvar!');
-      return;
-    }
-
     try {
       await atualizarUsuario(idUsuario, usuario);
       navigate('/');
@@ -59,10 +52,10 @@ export default function EditarUsuarioPage() {
       <form onSubmit={handleSubmit}>
         <FormUsuarios
           onChange={setUsuario}
-          validaCidade={setIsValid}
           usuario={usuario}
+		  setUsuario={setUsuario}
         />
-        <button type="submit" disabled={!isValid}>Salvar alterações</button>
+        <button type="submit">Salvar alterações</button>
       </form>
     </div>
   );

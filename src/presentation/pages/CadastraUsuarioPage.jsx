@@ -4,13 +4,17 @@ import api from "../../infra/http/api";
 import { useNavigate } from 'react-router-dom';
 
 export default function CadastraUsuarioPage() {
-	const [usuario, setUsuario] = useState({});
+	const [usuario, setUsuario] = useState({
+		nome: "", email: '', telefone: '', estado: '', cidade: ''
+	});
 	const navigate = useNavigate()
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		try {
+			console.log(usuario);
+
 			const response = await api('usuario', 'POST', usuario);
 
 			if (!response.ok) {
@@ -31,7 +35,7 @@ export default function CadastraUsuarioPage() {
 		<>
 			<h1 className='cadastro-usuarios__titulo'>Cadastro de usuários</h1>
 			<form className='cadastro-usuarios__form' onSubmit={handleSubmit}>
-				<FormUsuarios onChange={setUsuario} />
+				<FormUsuarios usuario={usuario} setUsuario={setUsuario} onChange={setUsuario} />
 				<button type='submit'>Gravar</button>
 			</form>
 		</>

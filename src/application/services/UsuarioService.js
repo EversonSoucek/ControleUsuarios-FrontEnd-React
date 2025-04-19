@@ -1,4 +1,4 @@
-import { usuarioService } from "../../infra/apis/UsuarioService";
+import { usuarioService } from "../../infra/apis/UsuarioApi";
 
 
 export async function buscarUsuarioPorId(id) {
